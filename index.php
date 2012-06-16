@@ -9,9 +9,9 @@ include_once('php-sdk/facebook.php');
 
 
 $app_url = "https://csclub.uwaterloo.ca/~y5pei"; // no slash at the end, e.g. 'https://social-cafe.herokuapp.com'
-$app_id = "461083867237962";
-$app_secret = "743e4313676ae4c393708e31ca6d6613";
-$app_namespace = "testmeet-app"; // no colon at the end, e.g. 'social-cafe'
+$app_id = "152916161509664";
+$app_secret = "673c3da0f16c3a6fd357dda1e6cdfffc";
+$app_namespace = "hbd-fbhack"; // no colon at the end, e.g. 'social-cafe'
 
 
 $facebook = new Facebook( array(

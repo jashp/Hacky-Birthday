@@ -156,7 +156,8 @@ textarea {
 }
 
 body {
-  margin: 0;
+  margin-right=auto;
+  margin-left=auto;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
   line-height: 18px;

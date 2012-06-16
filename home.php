@@ -1,8 +1,104 @@
 <!DOCTYPE html>
+<?php 
+
+if (isset($_REQUEST['username'])) {
+  $username = $_REQUEST['username'];
+}
+
+include_once('php-sdk/facebook.php');
+
+date_default_timezone_set('UTC');
+$app_url = "https://csclub.uwaterloo.ca/~y5pei"; // no slash at the end, e.g. 'https://social-cafe.herokuapp.com'
+$app_id = "152916161509664";
+$app_secret = "673c3da0f16c3a6fd357dda1e6cdfffc";
+$app_namespace = "hbd-fbhack"; // no colon at the end, e.g. 'social-cafe'
+
+
+$facebook = new Facebook( array(
+                           'appId' => $app_id,
+                           'secret' => $app_secret,
+                         ));
+  
+  $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships,friends_likes,publish_stream') );
+
+    if(!$facebook->getUser()) {
+     echo '<a href="' . $login_url . '">Login Testing</a>';
+   } else {
+      
+      if($_GET["at"]) {
+        echo '<p><pre>access token: ' . $facebook->getAccessToken() . '</pre></p>';
+      }
+      
+      $me = $facebook->api("/me",'GET');
+      $me['likes'] = $facebook->api("/me/likes", 'GET');
+      $me['friends'] = $facebook->api('/me/friends?fields=id,name,birthday', 'GET');
+
+      // get todays date
+      $today = date("m/d");
+      $birthdayppl = array();
+
+      foreach($me['friends']['data'] as $person){
+        if(isset($person['birthday']) && substr($person['birthday'], 0, 5) == $today){
+          $birthdayppl[] = $person;
+        }
+      }
+    
+  function getCommon($personId, $connections){
+    
+    global $facebook;
+    $common = array();
+    $them = $facebook->api("/$personId/$connections", 'GET');
+    $me = $facebook->api("/me/$connections", 'GET');
+
+    foreach($them['data'] as $t) {
+      foreach($me['data'] as $m){
+        if ($t['id'] == $m['id']) {
+          $common['id'] = $t['id'];
+          $common['name'] = $t['name'];
+        }
+      }
+    }
+
+    return $common;
+  }
+
+  foreach($birthdayppl as $b) {
+    $groups = getCommon($b['id'], "groups");
+    $music = getCommon($b['id'], "music");
+    $books = getCommon($b['id'], "books");
+    $games = getCommon($b['id'], "games");
+    $movies = getCommon($b['id'], "movies");
+    $television = getCommon($b['id'], "television");
+    $events = getCommon($b['id'], "events");
+  /*
+  print_r($groups);
+  print_r($books);
+  print_r($games);
+  print_r($movies);
+  print_r($music);
+  print_r($television);
+  print_r($events);*/
+  }
+  
+  
+  
+ 
+   
+$parameters['message'] = "hi, this is a test. please ignore it";
+$parameters['name'] = "hello";
+$parameters['description'] = "this is supposed to be a description";
+//$facebook->api('/jashPatel/feed', 'POST', $parameters);
+
+
+//$facebook->api('/jashPatel/feed', 'POST', $parameters);
+  }
+    
+?>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Happy Birthday</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -15,7 +111,7 @@
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="css/birthday_styles.less" rel="stylesheet">
+    <link href="css/birthday_styles.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -43,23 +139,41 @@
           <a class="brand" href="#">Happy Birthday!</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              
             </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
-    <div class="peep">
-
+	
+	<div class="container">
+		
       <h1>Happy Birthday!</h1>
+      
       <p>Here's a list of everybody who has a birthday today!<br><br></p>
-      <div class="name"> 
-      	John
+      
 
-
+      <div class="row">
+        <?php
+      foreach($birthdayppl as $b) {
+        ?>
+        <div class="span6"> 
+          <?php echo $b['name'] ?>
+        </div>
+      <div class="span6">
+        <div class="btn-group">
+          <form>
+          <button class="btn">Say Happy Birthday!</button>
+          </form>
+        </div>
+        
+      <?php
+      }
+      ?>
+  		</div>
+  		
+	</div>
+      
     </div> <!-- /container -->
 
     <!-- Le javascript

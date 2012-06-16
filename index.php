@@ -36,5 +36,12 @@ $facebook = new Facebook( array(
       print_r($me);
       
    }
+
+   print_r($me['friends']);
+  foreach($person as $me['friends']['data']){
+    if(isset($person['birthday'])){
+      print $person['name'].' '.$person['birthday']."\n";
+    }
+  }
 ?>
 

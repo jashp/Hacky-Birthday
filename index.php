@@ -35,7 +35,7 @@ $facebook = new Facebook( array(
 
 		  // get todays date
 		  $today = date("m/d");
-      $birthdyppl = array();
+      $birthdayppl = array();
 		
       foreach($me['friends']['data'] as $person){
         if(isset($person['birthday']) && substr($person['birthday'], 0, 5) == $today){
@@ -50,7 +50,17 @@ $facebook = new Facebook( array(
         </div>
         <?php
       }
+	  
+	  function getCommon($personId, $connections){
+	$them = $facebook->api("/$personId/$connections", 'GET');
+	print_r($them);
+	$me = $facebook->api("/me/$connections", 'GET');
+}
+	  getCommon("timtimpei", "books");
    }
+   
+   
+   
 
 ?>
 

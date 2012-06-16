@@ -15,7 +15,7 @@
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="css/birthday_styles.css" rel="stylesheet">
+    <link href="css/birthday_styles.less" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -55,7 +55,10 @@
     <div class="peep">
 
       <h1>Happy Birthday!</h1>
-      <p>Here's a list of everybody who has a birthday today!<br> All you get is this message and a barebones HTML document.</p>
+      <p>Here's a list of everybody who has a birthday today!<br><br></p>
+      <div class="name"> 
+      	John
+
 
     </div> <!-- /container -->
 

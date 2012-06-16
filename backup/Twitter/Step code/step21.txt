@@ -1,0 +1,1 @@
+<link rel="apple-touch-icon-precomposed" href="images/dashboard-icon.png" />

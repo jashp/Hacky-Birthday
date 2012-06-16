@@ -1,0 +1,13 @@
+header#masthead h1{
+   background: url(images/header.png) 0 0 no-repeat;
+   width: 100%;
+   height: 75px;
+   margin: 0 !important; /* use !important to overwrite jquery css */
+   text-indent: -5000px;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+   header#masthead h1{
+      background-image: url(images/header@2x.png) !important;
+      -webkit-background-size: 100% 100%;
+   }
+}

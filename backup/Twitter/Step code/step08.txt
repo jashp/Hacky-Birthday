@@ -1,0 +1,9 @@
+ul li img{
+   border-radius: 15px;
+   -moz-border-radius: 15px;
+   -khtml-border-radius: 15px;
+   -webkit-border-radius: 15px;
+   width: 68px;
+   height: 68px;
+   margin: 6px 7px;
+}

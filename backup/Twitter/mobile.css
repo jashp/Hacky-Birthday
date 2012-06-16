@@ -1,0 +1,53 @@
+/* resize images and add rounded corners */
+ul li img{
+   width: 68px;
+   height: 68px;
+   margin: 6px 7px;
+   border-radius: 15px;
+   -moz-border-radius: 15px;
+   -khtml-border-radius: 15px;
+   -webkit-border-radius: 15px;
+}
+
+/* style up the unordered list of tweets */
+ul.tweets{ margin: 0; padding: 0; }
+ul.tweets li {
+   padding: 0 15px 0 15px;
+   background:-moz-linear-gradient(center top , #FDFDFD, #EEEEEE) repeat scroll 0 0 #EEEEEE;
+   background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#FDFDFD), to(#EEEEEE));
+   border-bottom: 1px solid #CCCCCC;
+   border-top: 1px solid #FFF;
+}
+ul.tweets li h3{
+   font-size: 14px;
+   margin-bottom: 10px;
+}
+ul.tweets li p{
+   font-size: 12px;
+   font-weight: normal;
+   margin-top: 0;
+}
+
+/* add a custom masthead background to the header */
+header#masthead h1{
+   background: url(images/header.png) 0 0 no-repeat;
+   width: 100%;
+   height: 75px;
+   margin: 0 !important; /* use !important to overwrite jquery css */
+   text-indent: -5000px;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+   header#masthead h1{
+      background-image: url(images/header@2x.png) !important;
+      -webkit-background-size: 100% 100%;
+   }
+}
+
+/* overwrite jquery css to shift button text 10px to the left */ 
+.ui-li-has-thumb .ui-btn-inner{
+   padding-left: 90px;
+}
+/* make the footer link a smaller font-size */
+footer a{
+   font-size: 11px !important;
+}

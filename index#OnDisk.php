@@ -43,13 +43,9 @@ $facebook = new Facebook( array(
         }
       }
 
-      foreach($birthdayppl as $b) {
-        ?>
-        <div class="peep"> 
-          <div class="name"><?php echo $b['name'] ?> </div>
-        </div>
-        <?php
-      }
+      print_r($birthdayppl);
+
+
    }
 
 ?>

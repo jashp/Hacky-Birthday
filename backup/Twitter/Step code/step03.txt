@@ -1,0 +1,11 @@
+<div data-role="page">
+   <header data-role="header">
+      
+   </header>
+   <div data-role="content">
+      
+   </div>
+   <footer data-role="footer">
+      
+   </footer>
+</div>

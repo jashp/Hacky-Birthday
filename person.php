@@ -65,7 +65,19 @@ include_once('php-sdk/facebook.php');
       </div>
     </div>
   <div class="container">
-    
+    	<div class="modal hide" id="myModal">
+	  <div class="modal-header">
+	    <button type="button" class="close" data-dismiss="modal">×</button>
+	    <h3>Modal header</h3>
+	  </div>
+	  <div class="modal-body">
+	    <p>One fine body…</p>
+	  </div>
+	  <div class="modal-footer">
+	    <a href="#" class="btn" data-dismiss="modal">Close</a>
+	    <a href="#" class="btn btn-primary">Save changes</a>
+	  </div>
+	</div>
 
 
 <?php
@@ -112,9 +124,9 @@ include_once('php-sdk/facebook.php');
 			echo '</div>';
 			echo '<div class="span8">';
 			echo '<div class="btn-group">';
-            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<form method="post" action="message.php?id='.$b['id'].'&element_id='.$g['id'].'">';
             echo '<button class="btn">Do it!</button>';
-            //</form>
+            echo '</form>';
           echo'</div>';
           echo'</div>';
 echo'</div>';
@@ -235,8 +247,7 @@ echo'</div>';
 		}	
 	}
 ?>
-	
-	<div class=""
+
 
 
     </div> <!-- /container -->
@@ -259,5 +270,7 @@ echo'</div>';
     <script src="js/bootstrap-typeahead.js"></script>
 
   </body>
+
+
 </html>
 

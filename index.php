@@ -19,7 +19,7 @@ $facebook = new Facebook( array(
                            'secret' => $app_secret,
                          ));
   
-  $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships') );
+  $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships,friends_likes') );
 
     if(!$facebook->getUser()) {
      echo '<a href="' . $login_url . '">Login Testing</a>';

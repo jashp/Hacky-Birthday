@@ -22,7 +22,7 @@ $facebook = new Facebook( array(
   $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships') );
 
     if(!$facebook->getUser()) {
-     echo '<a href="' . $login_url . '">Login</a>';
+     echo '<a href="' . $login_url . '">Login Testing</a>';
    } else {
       
       if($_GET["at"]) {

@@ -1,12 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+<?php
+include_once('php-sdk/facebook.php');
+			date_default_timezone_set('UTC');
+			if (isset($_REQUEST['id'])) {
+			  $b['id'] = $_REQUEST['id'];
+			}
+
+			$app_url = "https://csclub.uwaterloo.ca/~y5pei"; // no slash at the end, e.g. 'https://social-cafe.herokuapp.com'
+			$app_id = "152916161509664";
+			$app_secret = "673c3da0f16c3a6fd357dda1e6cdfffc";
+			$app_namespace = "hbd-fbhack"; // no colon at the end, e.g. 'social-cafe'
+
+
+			$facebook = new Facebook( array(
+									   'appId' => $app_id,
+									   'secret' => $app_secret,
+									 ));
+			  
+			  $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships,friends_likes,publish_stream') );
+
+  
+  
+?>
+
+<head>
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title>Hacky Birthday</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
     <style>
@@ -16,7 +37,6 @@
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/birthday_styles.css" rel="stylesheet">
-
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -29,10 +49,8 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
   </head>
-
-  <body>
-
-    <div class="navbar navbar-fixed-top">
+    <body>
+   <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -40,43 +58,187 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Happy Birthday!</a>
+          <a class="brand" href="#">Hacky Birthday!</a>
           <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-            </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+  <div class="container">
+    
 
-	<div class="container">
-		
-      <h1>Happy Birthday!</h1>
-      
-      <p>Here's a list of everybody who has a birthday today!<br><br></p>
-      
-      <div class="row">
-  		<div class="span4">some stuff</div>
-  		<div class="span4">some more stuffs...</div>
-  		<div class="span4">
-  			<div class="btn-group">
-  				<button class="btn">Hello</button>
-  			</div>
 
-  		</div>  		<div class="span4">some stuff</div>
-  		<div class="span4">the person's birthday</div>
-  		<div class="span4">
-  			<div class="btn-group">
-  				<button class="btn">Hello</button>
-  			</div>
+<?php
 
-  		</div>
-  		
-	</div>
-      
+			function getCommon($personId, $connections){
+				
+			  global $facebook;
+			  $common = array();
+				$them = $facebook->api("/$personId/$connections", 'GET');
+				$me = $facebook->api("/me/$connections", 'GET');
+
+				foreach($them['data'] as $t) {
+					foreach($me['data'] as $m){
+						if ($t['id'] == $m['id']) {
+							$tmp = array();
+							$tmp['id'] = $t['id'];
+				  			$tmp['name'] = $t['name'];
+				  			$common[] = $tmp;
+						}
+					}
+				}
+
+			return $common;
+			}
+			$groups = getCommon($b['id'], "groups");
+			$music = getCommon($b['id'], "music");
+			$books = getCommon($b['id'], "books");
+			$games = getCommon($b['id'], "games");
+			$movies = getCommon($b['id'], "movies");
+			$television = getCommon($b['id'], "television");
+			$events = getCommon($b['id'], "events");
+	
+	if (!empty($movies) || !empty($music) || !empty($groups) || !empty($books) || !empty($games) || !empty($television) || !empty($events))
+		echo '<p> This person has something in common with you! Wish them a happy birthday!!</p>';
+	else 
+		echo '<p> Darn! You have nothing in common (on Facebook)...say something anyway?</p>'; 
+
+	if (!empty($movies)) {
+		echo '<h1>Movies</h1>';
+		foreach ($movies as $g) { 
+			echo '<div class="row">';
+			echo '<div class="span4">';
+			echo $g['name'];
+			echo '</div>';
+			echo '<div class="span8">';
+			echo '<div class="btn-group">';
+            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<button class="btn">Do it!</button>';
+            //</form>
+          echo'</div>';
+          echo'</div>';
+echo'</div>';
+		}	
+	}
+
+	if (!empty($music)) {
+		echo '<h1>Music</h1>';
+		foreach ($music as $g) { 
+			echo '<div class="row">';
+			echo '<div class="span4">';
+			echo $g['name'];
+			echo '</div>';
+			echo '<div class="span8">';
+			echo '<div class="btn-group">';
+            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<button class="btn">Do it!</button>';
+            //</form>
+          echo'</div>';
+          echo'</div>';
+echo'</div>';
+
+		}	
+	}
+
+	if (!empty($groups)) {
+		echo '<h1>Groups</h1>';
+		foreach ($groups as $g) { 
+			echo '<div class="row">';
+			echo '<div class="span4">';
+			echo $g['name'];
+			echo '</div>';
+			echo '<div class="span8">';
+			echo '<div class="btn-group">';
+            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<button class="btn">Do it!</button>';
+            //</form>
+          echo'</div>';
+          echo'</div>';
+echo'</div>';
+
+		}	
+	}
+
+	if (!empty($books)) {
+		echo '<h1>Books</h1>';
+		foreach ($books as $g) { 
+			echo '<div class="row">';
+			echo '<div class="span4">';
+			echo $g['name'];
+			echo '</div>';
+			echo '<div class="span8">';
+			echo '<div class="btn-group">';
+            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<button class="btn">Do it!</button>';
+            //</form>
+          echo'</div>';
+          echo'</div>';
+echo'</div>';
+
+		}	
+	}
+
+	if (!empty($games)) {
+		echo '<h1>Games</h1>';
+		foreach ($games as $g) { 
+			echo '<div class="row">';
+			echo '<div class="span4">';
+			echo $g['name'];
+			echo '</div>';
+			echo '<div class="span8">';
+			echo '<div class="btn-group">';
+            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<button class="btn">Do it!</button>';
+            //</form>
+          echo'</div>';
+          echo'</div>';
+echo'</div>';
+
+		}	
+	}
+
+	if (!empty($television)) {
+		echo '<h1>TV</h1>';
+		foreach ($television as $g) { 
+		echo '<div class="row">';
+			echo '<div class="span4">';
+			echo $g['name'];
+			echo '</div>';
+			echo '<div class="span8">';
+			echo '<div class="btn-group">';
+            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<button class="btn">Do it!</button>';
+            //</form>
+          echo'</div>';
+          echo'</div>';
+echo'</div>';
+
+		}	
+	}
+
+	if (!empty($events)) {
+		echo '<h1>Events</h1>';
+		foreach ($events as $g) { 
+	echo '<div class="row">';
+			echo '<div class="span4">';
+			echo $g['name'];
+			echo '</div>';
+			echo '<div class="span8">';
+			echo '<div class="btn-group">';
+            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<button class="btn">Do it!</button>';
+            //</form>
+          echo'</div>';
+          echo'</div>';
+echo'</div>';
+
+		}	
+	}
+?>
+	
+	<div class=""
+
+
     </div> <!-- /container -->
 
     <!-- Le javascript
@@ -98,3 +260,4 @@
 
   </body>
 </html>
+

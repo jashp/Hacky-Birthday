@@ -19,7 +19,7 @@ $facebook = new Facebook( array(
                            'secret' => $app_secret,
                          ));
   
-  $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships,friends_likes,publish_stream') );
+  $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships,friends_likes,publish_stream,friends_photos') );
 
 ?>
 
@@ -67,8 +67,6 @@ $facebook = new Facebook( array(
     </div>
   <div class="container">
     
-      <h1>Hacky Birthday!</h1>
-      
       <p>Here's a list of everybody who has a birthday today!<br><br></p>
       
       <div class="row">
@@ -96,23 +94,26 @@ $facebook = new Facebook( array(
 				}
 			  }
 
-        echo '<div class="row">';
+        
 			  foreach($birthdayppl as $b) { 
 				?>
-				<div class="span4"> 
-				  <?php echo $b['name'] ?>
+				<div class="row">
+					
+						<div class="span3"> 
+						  <?php echo $b['name'] ?>
+						</div>
+						<div class="span3">
+						  <div class="btn-group">
+							<form method= "post" action="person.php?<?php echo 'id='.$b['id']; ?>">
+							<button class="btn">Say Happy Birthday!</button>
+							</form>
+						  </div>
+						</div>
+					
 				</div>
-        <div class="span8">
-          <div class="btn-group">
-            <form>
-            <button class="btn">Say Happy Birthday!</button>
-            </form>
-          </div>
-        </div>
 				<?php
 			  }
 
-			  echo '</div>';
 			  
 			// function getCommon($personId, $connections){
 				

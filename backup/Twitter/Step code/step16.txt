@@ -1,2 +1,0 @@
-echo('<h3>'.$text.'</h3>');
-echo('<p>Posted on '.$date.' at '.$time.'</p>');

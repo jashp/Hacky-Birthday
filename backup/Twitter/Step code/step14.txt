@@ -1,9 +1,0 @@
-<ul class="tweets">
-   <?php
-   foreach ($result as $item) {
-      echo('<li class="ui-li">');
-      
-      echo('</li>');
-   }
-   ?>
-</ul>

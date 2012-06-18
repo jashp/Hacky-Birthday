@@ -1,3 +1,0 @@
-<footer data-role="footer">
-   <h4><a href="http://www.studiomohu.com" rel="external">Developed by Mohu&trade;</a></h4>
-</footer>

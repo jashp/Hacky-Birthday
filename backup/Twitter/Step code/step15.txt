@@ -1,3 +1,0 @@
-$text = htmlentities($item->text, ENT_QUOTES, 'utf-8');
-$time = date('g:ia', strtotime($item->created_at));
-$date = date('jS M', strtotime($item->created_at));

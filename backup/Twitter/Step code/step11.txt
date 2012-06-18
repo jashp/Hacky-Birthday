@@ -1,2 +1,0 @@
-$json = file_get_contents("http://twitter.com/status/user_timeline/$twitterUser.json", true); //get the twitter JSON feed
-$result = json_decode($json); //json_decode content as array

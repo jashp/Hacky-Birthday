@@ -1,3 +1,0 @@
-<?php
-   $twitterUser = empty($_GET['twitterUser']) ? 'webdesignermag' : $_GET['twitterUser'];
-?>

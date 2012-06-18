@@ -1,1 +1,0 @@
-$feedName = $result[0]->user->name;

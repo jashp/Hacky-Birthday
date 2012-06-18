@@ -1,4 +1,0 @@
-<li>
-   <h3><a href="feed.php?twitterUser=webdesignermag">Web Designer Mag</a></h3>
-   <p>Defining the internet through beautiful design</p>
-</li>

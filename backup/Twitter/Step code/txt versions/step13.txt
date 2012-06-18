@@ -1,3 +1,0 @@
-<header data-role="header">
-   <h1><?php echo($feedName) ?></h1>
-</header>

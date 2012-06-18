@@ -42,6 +42,8 @@ $facebook = new Facebook( array(
           $birthdayppl[] = $person;
         }
       }
+
+      print_r($birthdayppl);
     
   function getCommon($personId, $connections){
     

@@ -93,7 +93,6 @@ $facebook = new Facebook( array(
 				  $birthdayppl[] = $person;
 				}
 			  }
-
         
 			  foreach($birthdayppl as $b) { 
 				?>

@@ -98,7 +98,20 @@ Hacky Birthday <?php echo $name ?>!
 			echo 'I noticed you liked '.$element.', I love that movie! We should hang out and catch a movie sometime.';
 			break;
 		case 'Tv show':
+      echo 'You like '.$element.', have you seen the last episode?';
 			break;
+    case 'Group':
+      echo 'We\'re both in '.$element.', we should grab some other people from the group and hang out sometime!';
+      break;
+    case 'Band/Musician':
+      echo 'You like '.$element.', lets hit up their concert!';
+      break;
+    case 'Game':
+      echo 'You like '.$element.'. We should play together sometime!';
+      break;
+    case 'Book':
+      echo 'you read '.$element.'. It was pretty amazing, huh?';
+      break;
 	}
 ?> 
 </textarea>

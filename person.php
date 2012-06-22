@@ -142,9 +142,9 @@ echo'</div>';
 			echo '</div>';
 			echo '<div class="span8">';
 			echo '<div class="btn-group">';
-            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<form method="post" action="message.php?id='.$b['id'].'&element_id='.$g['id'].'">';
             echo '<button class="btn">Do it!</button>';
-            //</form>
+            echo '</form>';
           echo'</div>';
           echo'</div>';
 echo'</div>';
@@ -161,9 +161,9 @@ echo'</div>';
 			echo '</div>';
 			echo '<div class="span8">';
 			echo '<div class="btn-group">';
-            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<form method="post" action="message.php?id='.$b['id'].'&element_id='.$g['id'].'">';
             echo '<button class="btn">Do it!</button>';
-            //</form>
+            echo '</form>';
           echo'</div>';
           echo'</div>';
 echo'</div>';
@@ -180,9 +180,9 @@ echo'</div>';
 			echo '</div>';
 			echo '<div class="span8">';
 			echo '<div class="btn-group">';
-            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<form method="post" action="message.php?id='.$b['id'].'&element_id='.$g['id'].'">';
             echo '<button class="btn">Do it!</button>';
-            //</form>
+            echo '</form>';
           echo'</div>';
           echo'</div>';
 echo'</div>';
@@ -199,9 +199,9 @@ echo'</div>';
 			echo '</div>';
 			echo '<div class="span8">';
 			echo '<div class="btn-group">';
-            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<form method="post" action="message.php?id='.$b['id'].'&element_id='.$g['id'].'">';
             echo '<button class="btn">Do it!</button>';
-            //</form>
+            echo '</form>';
           echo'</div>';
           echo'</div>';
 echo'</div>';
@@ -218,9 +218,9 @@ echo'</div>';
 			echo '</div>';
 			echo '<div class="span8">';
 			echo '<div class="btn-group">';
-            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<form method="post" action="message.php?id='.$b['id'].'&element_id='.$g['id'].'">';
             echo '<button class="btn">Do it!</button>';
-            //</form>
+            echo '</form>';
           echo'</div>';
           echo'</div>';
 echo'</div>';
@@ -237,9 +237,9 @@ echo'</div>';
 			echo '</div>';
 			echo '<div class="span8">';
 			echo '<div class="btn-group">';
-            // <form method= "post" action="person.php? echo 'id='.$b['id'];">
+            echo '<form method="post" action="message.php?id='.$b['id'].'&element_id='.$g['id'].'">';
             echo '<button class="btn">Do it!</button>';
-            //</form>
+            echo '</form>';
           echo'</div>';
           echo'</div>';
 echo'</div>';

@@ -103,7 +103,7 @@ Hacky Birthday <?php echo $name ?>!
     case 'Group':
       echo 'We\'re both in '.$element.', we should grab some other people from the group and hang out sometime!';
       break;
-    case 'Band/Musician':
+    case 'Musician/band':
       echo 'You like '.$element.', lets hit up their concert!';
       break;
     case 'Game':
@@ -112,6 +112,8 @@ Hacky Birthday <?php echo $name ?>!
     case 'Book':
       echo 'you read '.$element.'. It was pretty amazing, huh?';
       break;
+    default:
+      echo 'Did you know that we both like '.$element.'. Let\'s talk about it more soon!';
 	}
 ?> 
 </textarea>

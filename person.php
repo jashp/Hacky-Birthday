@@ -3,7 +3,7 @@
 	if (isset($_GET['id'])) {
 		$id = $_GET['id'];
 	} 
-	
+
 	$likeMap;
 	function sortByCategory($likes){
 		global $likeMap;
@@ -18,29 +18,13 @@
 		}
 		return $r;
 	}
-	
-	function getCommon($personId, $connections){
-		global $facebook;
-		$common = array();
-		$them = $facebook->api("/$personId/$connections", 'GET');
-		$me = $facebook->api("/me/$connections", 'GET');
-
-		foreach($them['data'] as $t) {
-			foreach($me['data'] as $m){
-				if ($t['id'] == $m['id']) {
-					$common[] = $t;
-				}
-			}
-		}
-		return $common;
-	}
-	
+		
 	$isLoggedIn = $facebook->getUser() && isset($id);
-	if($isLoggedIn) {
-		$me = $facebook->api("/me/likes", 'GET')['data'];
-		$me = sortByCategory($me);
-		$them = $facebook->api("/$id/likes", 'GET')['data'];
-		$them = sortByCategory($them);
+	if ($isLoggedIn) {
+		$me = $facebook->api("/me/likes", 'GET');
+		$me = sortByCategory($me['data']);
+		$them = $facebook->api("/$id/likes", 'GET');
+		$them = sortByCategory($them['data']);
 		$both = array();
 		
 		foreach ($me as $key => $meCategory) {
@@ -49,7 +33,6 @@
 				$both[$key] = array_intersect($meCategory, $themCategory);
 			}
 		}
-		print_r($both);
 	}
 ?>
 <!DOCTYPE html>

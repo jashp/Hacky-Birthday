@@ -1,15 +1,15 @@
 <?php
 	include_once('config.php');
 	
+	$testingAccounts = array("100003947989938", "100004011814297");
 	$isLoggedIn = $facebook->getUser();
 	if($isLoggedIn) {
 		$friends = $facebook->api('/me/friends?fields=id,name,birthday', 'GET');
-		$today = "06/16";
-		//date("m/d"); Hard coding date for testing purposes.
+		$today = date("m/d");
 		$birthdayppl = array();
-		foreach($friends['data'] as $person){
-			if(isset($person['birthday']) && substr($person['birthday'], 0, 5) == $today){
-				$birthdayppl[] = $person;
+		foreach($friends['data'] as $friend){
+			if(isset($friend['birthday']) && (substr($friend['birthday'], 0, 5) == $today || in_array($friend['id'], $testingAccounts))){
+				$birthdayppl[] = $friend;
 			}
 		}
 	}

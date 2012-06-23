@@ -6,6 +6,7 @@
 	$app_namespace = "hbd-fbhack";
 	$facebook = new Facebook( array( 'appId' => $app_id, 'secret' => $app_secret, ));
 	function getLoginUrl(){
+		global $facebook;
 		return $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_likes,friends_birthday,friends_likes,publish_stream') );
 	}
 ?>

@@ -4,7 +4,23 @@
 		$id = $_GET['id'];
 	} 
 	
-	function getCommon(&$facebook, $personId, $connections){
+	$likeMap;
+	function sortByCategory($likes){
+		global $likeMap;
+		$r = array();
+		foreach($likes as $like){
+			if(isset($r[$like['category']])){
+				$r[$like['category']][] = $like['id'];
+			} else {
+				$r[$like['category']] = array($like['id']);
+			}
+			$likeMap[$like['id']] = $like['name'];
+		}
+		return $r;
+	}
+	
+	function getCommon($personId, $connections){
+		global $facebook;
 		$common = array();
 		$them = $facebook->api("/$personId/$connections", 'GET');
 		$me = $facebook->api("/me/$connections", 'GET');
@@ -21,10 +37,19 @@
 	
 	$isLoggedIn = $facebook->getUser() && isset($id);
 	if($isLoggedIn) {
-		$interestNames = array("groups", "music", "books", "games", "movies", "television", "events");
-		foreach($interestNames as $interestName){
-			$interests[$interestName] = getCommon($facebook, $id, $interestName);
+		$me = $facebook->api("/me/likes", 'GET')['data'];
+		$me = sortByCategory($me);
+		$them = $facebook->api("/$id/likes", 'GET')['data'];
+		$them = sortByCategory($them);
+		$both = array();
+		
+		foreach ($me as $key => $meCategory) {
+			if(isset($them[$key])){
+				$themCategory = $them[$key];
+				$both[$key] = array_intersect($meCategory, $themCategory);
+			}
 		}
+		print_r($both);
 	}
 ?>
 <!DOCTYPE html>
@@ -80,7 +105,7 @@
 					</div>
 					<ul data-role="listview" data-divider-theme="a" data-inset="true">
 						<?php 
-						foreach ($interests as $interestName => $interest) {
+						foreach ($both as $interestName => $interest) {
 							if (!empty($interest)) {
 						?>
 								<li data-role="list-divider" role="heading">
@@ -88,8 +113,8 @@
 								</li>
 								<?php foreach ($interest as $item) { ?>
 									<li data-theme="c">
-										<a href="<?php print "message.php?id=".$id."&item=".$item['id']; ?>" data-transition="slide">
-											<?php print $item['name']; ?>
+										<a href="<?php print "message.php?id=".$id."&item=".$item; ?>" data-transition="slide">
+											<?php print $likeMap[$item]; ?>
 										</a>
 									</li>
 								<?php }

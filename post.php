@@ -1,19 +1,18 @@
 <?php
 	include_once('config.php');
 	
-	$isLoggedIn = $facebook->getUser();
-	if($isLoggedIn) {
-		$friends = $facebook->api('/me/friends?fields=id,name,birthday', 'GET');
-		$today = "06/16";
-		//date("m/d"); Hard coding date for testing purposes.
-		$birthdayppl = array();
-		foreach($friends['data'] as $person){
-			if(isset($person['birthday']) && substr($person['birthday'], 0, 5) == $today){
-				$birthdayppl[] = $person;
-			}
-		}
+	if (isset($_REQUEST['id']) && isset($_REQUEST['message'])) {
+		$id = $_REQUEST['id'];
+		$message = $_REQUEST['message'];
+		
+		$parameters['message'] = $message;
+		$parameters['name'] = "Hacky Birthday";
+		$parameters['description'] = "Posted by Hacky Birthday!";
+		$facebook->api('/'.$id.'/feed', 'POST', $parameters);
+		$out = "Your message was sucessfully posted!";
+	} else {
+		$out = "There was an error posting your message.";
 	}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,27 +45,10 @@
                 </h3>
             </div>
             <div data-role="content" style="padding: 15px">
-				<?php if($isLoggedIn) { ?>
-					<ul data-role="listview" data-divider-theme="a" data-inset="true">
-						<li data-role="list-divider" role="heading">
-							Birthdays Today
-						</li>
-						<?php foreach($birthdayppl as $b) { ?>
-							<li data-theme="c">
-								<a href="person.php?id=<?php echo $b['id']; ?>" >
-									<?php echo $b['name']; ?>
-								</a>
-							</li>
-						<?php } ?>
-					</ul>
-					<a data-role="button" data-transition="fade" href="<?php print $facebook->getLogoutUrl(); ?>" data-icon="minus" data-iconpos="left">
-						Logout of Facebook
-					</a>
-				<?php } else { ?>
-					<a data-role="button" data-transition="fade" href="<?php print getLoginUrl(); ?>" data-icon="plus" data-iconpos="left">
-						Login with Facebook
-					</a>
-				<?php } ?>
+				<?php print $out; ?>
+				<a data-role="button" data-transition="fade" href="index.php" data-icon="home" data-iconpos="left">
+						Return Home
+				</a>
             </div>
         </div>
         <script>

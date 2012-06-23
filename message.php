@@ -1,73 +1,84 @@
 <?php
-include_once('php-sdk/facebook.php');
-			date_default_timezone_set('UTC');
-			if (isset($_REQUEST['id'])) {
-			  $b['id'] = $_REQUEST['id'];
-			  $id = $_REQUEST['id'];
-			}
-
-			if (isset($_REQUEST['element_id'])) {
-			  $element_id = $_REQUEST['element_id'];
-			}
-
-			$app_url = "https://csclub.uwaterloo.ca/~y5pei"; // no slash at the end, e.g. 'https://social-cafe.herokuapp.com'
-			$app_id = "152916161509664";
-			$app_secret = "673c3da0f16c3a6fd357dda1e6cdfffc";
-			$app_namespace = "hbd-fbhack"; // no colon at the end, e.g. 'social-cafe'
-
-
-			$facebook = new Facebook( array(
-									   'appId' => $app_id,
-									   'secret' => $app_secret,
-									 ));
-			  
-			  $login_url = $facebook->getLoginUrl( array( 'scope' => 'publish_actions,user_birthday,user_likes,friends_birthday,friends_relationships,friends_likes,publish_stream') );
-
-				$name = $facebook->api("/$id", 'GET');
-				$name = $name['name'];
-				$element = $facebook->api("/$element_id", 'GET');
-				$category = $element['category'];
-				$element = $element['name'];
-
-?>
-
-
-<form method="post" action="postToFb.php?id=<?php echo $id ?>">
-<textarea name="message" rows="10" cols="30">
-
-Hacky Birthday <?php echo $name ?>!
-<?php 
-	switch ($category) {
-		case 'Movie':
-			echo 'I noticed you liked '.$element.', I love that movie! We should hang out and catch a movie sometime.';
-			break;
-		case 'Tv show':
-			break;
+	include_once('config.php');
+	if (isset($_GET['id'])) {
+		$id = $_GET['id'];
 	}
-?> 
-</textarea>
-<input type="submit" value="Say Hacky Birthday!" />
-</form>
+	if (isset($_GET['item'])) {
+		$itemId = $_GET['item'];
+	}
+	$isLoggedIn = $facebook->getUser() && isset($id) && isset($itemId);
+	
+	function getMessage($item){
+		switch ($item['category']) {
+			case 'Movie':
+				return 'I noticed you liked ' . $item['name'] . ', I love that movie! We should hang out and catch a movie sometime.';
+			case 'Tv show':
+				return 'You like ' . $item['name'] . ', have you seen the last episode?';
+			case 'Group':
+				return 'We\'re both in ' . $item['name'] . ', we should grab some other people from the group and hang out sometime!';
+			case 'Musician/band':
+				return 'You like ' . $item['name'] . ', lets hit up their concert!';
+			case 'Game':
+				return 'You like ' . $item['name'] . '. We should play together sometime!';
+			case 'Book':
+				return 'you read ' . $item['name'] . '. It was pretty amazing, huh?';
+			default:
+				return 'Did you know that we both like ' . $item['name'] . '? Let\'s talk about it more soon!';
+		}
+	}
 
-<!--
-Hacky Birthday [name]! 
+	if($isLoggedIn) {	
+		$person = $facebook->api("/$id", 'GET');
+		$item = $facebook->api("/$itemId", 'GET');
+		$message = 'Happy Birthday '.$person['first_name'].'! '.getMessage($item); 
+	}
+?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+        <link rel="stylesheet" href="css/local.css" />
+        <style>
+            /* App custom styles */
+        </style>
+		<script type="text/javascript">
+			//Fixes facebook/jquery bug
+			if (window.location.hash == '#_=_')window.location.hash = '';
+		</script>
 
-we're both in [group], we should grab some other people from the group and hang out sometime!
-you like [movie], we should hang out and watch a movie sometime!
-you like [tv show], have you seen the last episode?
-we're both went to [event], we should do it again! That was awesome!
-you like [band/musician], lets hit up thier concert!
-you like [game]. We should play together sometime!
-you read [book]. It was pretty amazing, huh?
-
-
-
- I never knew that 
- I noticed
- I just found out
- Isn't it cool that
- 
-
-
- -->
-
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js">
+        </script>
+    </head>
+    <body>
+        <!-- Home -->
+		<div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h3>
+                    Hacky Birthday!
+                </h3>
+            </div>
+            <div data-role="content" style="padding: 15px">
+				<?php if($isLoggedIn) { ?>
+					<form method="post" action="post.php" data-ajax="false">
+						<textarea name="message" id="message" placeholder=""><?php print $message; ?></textarea>
+						<input type="hidden" name="id" value="<?php print $id; ?>" /> 
+						<input type="submit" data-theme="a" data-icon="check" data-iconpos="left" value="Say Hacky Birthday!" />
+					</form>
+				<?php } else { ?>
+					<a data-role="button" data-transition="fade" href="<?php print getLoginUrl(); ?>" data-icon="plus" data-iconpos="left">
+						Login with Facebook
+					</a>
+				<?php } ?>
+            </div>
+        </div>
+        <script>
+            //App custom javascript
+        </script>
+    </body>
+</html>

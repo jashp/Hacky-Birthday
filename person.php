@@ -98,7 +98,7 @@
 					</ul>
 				</div>
 				<?php } else { ?>
-					<a data-role="button" data-transition="fade" href="<?php print $login_url; ?>" data-icon="plus" data-iconpos="left">
+					<a data-role="button" data-transition="fade" href="<?php print getLoginUrl(); ?>" data-icon="plus" data-iconpos="left">
 						Login with Facebook
 					</a>
 				<?php } ?>

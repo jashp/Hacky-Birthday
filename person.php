@@ -21,18 +21,18 @@
 		
 	$isLoggedIn = $facebook->getUser() && isset($id);
 	if ($isLoggedIn) {
-		$me = $facebook->api("/me/likes", 'GET');
-		$me = sortByCategory($me['data']);
-		$them = $facebook->api("/$id/likes", 'GET');
-		$them = sortByCategory($them['data']);
-		$both = array();
-		
-		foreach ($me as $key => $meCategory) {
-			if(isset($them[$key])){
-				$themCategory = $them[$key];
-				$both[$key] = array_intersect($meCategory, $themCategory);
-			}
-		}
+        $me = $facebook->api("/me/likes", 'GET');
+        $me = sortByCategory($me['data']);
+        $them = $facebook->api("/$id/likes", 'GET');
+        $them = sortByCategory($them['data']);
+        $out = array();
+        
+        foreach ($me as $key => $meCategory) {
+            if(isset($them[$key])){
+                $themCategory = $them[$key];
+                $out[$key] = array_intersect($meCategory, $themCategory);
+            }
+        }
 	}
 ?>
 <!DOCTYPE html>
@@ -45,7 +45,12 @@
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
         <link rel="stylesheet" href="css/local.css" />
         <style>
-            /* App custom styles */
+            #interest-list-them {
+                display:none;
+            }
+            #interest-list-me {
+                display:none;
+            }
         </style>
 		<script type="text/javascript">
 			//Fixes facebook/jquery bug
@@ -67,28 +72,64 @@
             </div>
             <div data-role="content" style="padding: 15px">
 				<?php if($isLoggedIn) { ?>
-					<div data-role="fieldcontain">
+					<div id="#display-likes-button" data-role="fieldcontain">
 						<fieldset data-role="controlgroup" data-type="horizontal">
 							<legend>
 								Whose likes do you want to show?
 							</legend>
-							<input name="radiobuttons1" id="radio2" value="radio2" type="radio" />
+							<input name="radiobuttons1" id="radio2" value="radio2" type="radio" onclick="onThemClicked()" />
 							<label for="radio2">
 								Thier's
 							</label>
-							<input name="radiobuttons1" id="radio1" value="radio1" type="radio" />
+							<input name="radiobuttons1" id="radio1" value="radio1" type="radio" onclick="onCommonClicked()" checked />
 							<label for="radio1">
 								Common
 							</label>
-							<input name="radiobuttons1" id="radio3" value="radio3" type="radio" />
+							<input name="radiobuttons1" id="radio3" value="radio3" type="radio" onclick="onMeClicked()" />
 							<label for="radio3">
 								Your's
 							</label>
 						</fieldset>
 					</div>
-					<ul data-role="listview" data-divider-theme="a" data-inset="true">
+					<ul id="interest-list-common" data-role="listview" data-divider-theme="a" data-inset="true">
 						<?php 
-						foreach ($both as $interestName => $interest) {
+						foreach ($out as $interestName => $interest) {
+							if (!empty($interest)) {
+						?>
+								<li data-role="list-divider" role="heading">
+									<?php print ucfirst($interestName); ?>
+								</li>
+								<?php foreach ($interest as $item) { ?>
+									<li data-theme="c">
+										<a href="<?php print "message.php?id=".$id."&item=".$item; ?>" data-transition="slide">
+											<?php print $likeMap[$item]; ?>
+										</a>
+									</li>
+								<?php }
+							}
+						} ?>
+					</ul>
+                    <ul id="interest-list-them" data-role="listview" data-divider-theme="a" data-inset="true">
+						<?php 
+						foreach ($them as $interestName => $interest) {
+							if (!empty($interest)) {
+						?>
+								<li data-role="list-divider" role="heading">
+									<?php print ucfirst($interestName); ?>
+								</li>
+								<?php foreach ($interest as $item) { ?>
+									<li data-theme="c">
+										<a href="<?php print "message.php?id=".$id."&item=".$item; ?>" data-transition="slide">
+											<?php print $likeMap[$item]; ?>
+										</a>
+									</li>
+								<?php }
+							}
+						} ?>
+					</ul>
+                    <ul id="interest-list-me" data-role="listview" data-divider-theme="a" data-inset="true">
+						<?php 
+						foreach ($me as $interestName => $interest) {
 							if (!empty($interest)) {
 						?>
 								<li data-role="list-divider" role="heading">
@@ -113,7 +154,22 @@
             </div>
         </div>
         <script>
-            //App custom javascript
+        
+            function onThemClicked() {
+                $('#interest-list-me').hide();
+                $('#interest-list-common').hide();
+                $('#interest-list-them').show();
+            }
+            function onMeClicked() {
+                $('#interest-list-them').hide();
+                $('#interest-list-common').hide();
+                $('#interest-list-me').show();
+            }
+            function onCommonClicked() {
+                $('#interest-list-me').hide();
+                $('#interest-list-them').hide();
+                $('#interest-list-common').show();
+            }
         </script>
     </body>
 </html>
